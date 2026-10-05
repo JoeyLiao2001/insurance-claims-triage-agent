@@ -5,6 +5,8 @@ multi-agent orchestration layer. The goal is not to "detect fraud" as a final ve
 produce a **triage signal** that helps a claims officer decide where scarce investigation
 capacity should go first.
 
+![pipeline](docs/img/pipeline.png)
+
 On a held-out test set the final model reaches **cost-weighted F-beta 0.73 (β≈2.77)**,
 **ROC-AUC 0.77**, **accuracy 0.80** — tuned so that missing a fraudulent claim costs much more
 than double-checking a legitimate one.
@@ -16,16 +18,6 @@ several different judgements: how the data was prepared, which model wins and wh
 reviewer should check first, and how to phrase all of this in business language. Each of these
 is a separate skill with its own strategy file, so the pipeline is organised as **7 agent
 nodes**, each backed by a versioned `SKILL.md` under [`skills/`](skills/):
-
-```mermaid
-flowchart LR
-    A[preprocess-data] --> B[train-models]
-    B --> C[evaluate-models]
-    C --> D[select-model]
-    D --> E[run-inference]
-    E --> F[generate-review-checklist]
-    F --> G[generate-business-recommendation]
-```
 
 | Node | Mode | Responsibility |
 |------|------|----------------|
@@ -41,6 +33,8 @@ Financial features are always computed by scripts; the LLM never does arithmetic
 does semantic judgement on top of deterministic outputs.
 
 ## Results
+
+![model selection](docs/img/model-selection.png)
 
 Candidate models on the validation set (n=150), scored with a cost-weighted F-beta
 (β≈2.77 — a missed fraud costs ~2.8× a false alarm):
@@ -100,6 +94,7 @@ you there if missing.
 ├── models/             # Trained model artifacts + preprocessor
 ├── reports/            # ROC curves & confusion matrices
 ├── data/               # insurance_claims.csv (not shipped — download, see Data)
+├── docs/img/           # architecture & model-selection diagrams
 ├── requirements.txt
 └── README.md
 ```
