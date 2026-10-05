@@ -1,0 +1,13 @@
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+joblib
+catboost
+lightgbm
+xgboost
+langgraph
+openai
+pydantic
+gradio
